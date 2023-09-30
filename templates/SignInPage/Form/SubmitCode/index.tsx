@@ -1,5 +1,6 @@
 import { FC, useState, useRef, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useGlobalContext } from "context";
 
 type Props = {
   email: string;
@@ -7,6 +8,7 @@ type Props = {
 
 const SubmitCode: FC<Props> = ({ email }) => {
   const router = useRouter();
+  const { handleSetUserName } = useGlobalContext();
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -90,9 +92,11 @@ const SubmitCode: FC<Props> = ({ email }) => {
       });
 
       if (res.status === 200) {
+        const data = await res.json();
         setError(null);
-
-        router.push("/");
+        handleSetUserName(data.username);
+        router.push("/home");
+        e.preventDefault();
       } else {
         setError("Code error");
       }

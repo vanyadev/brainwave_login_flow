@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import HomePage from "@/templates/HomePage";
+import SignInPage from "@/templates/SignInPage";
 
-const Home: NextPage = () => {
-    return <HomePage />;
+const SignIn: NextPage = () => {
+  return <SignInPage />;
 };
 
-export default Home;
+export default SignIn;

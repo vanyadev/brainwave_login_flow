@@ -4,13 +4,14 @@ import Logo from "@/components/Logo";
 import SubmitCode from "./SubmitCode";
 import SignIn from "./SignIn";
 import { useState } from "react";
+import { useGlobalContext } from "context";
 
 type FormProps = {};
 
 const Form = ({}: FormProps) => {
+  const { email, setEmail } = useGlobalContext();
   const { colorMode } = useColorMode();
   const [step, setStep] = useState(0);
-  const [email, setEmail] = useState<string>("");
   const isLightMode = colorMode === "light";
 
   const handleChangeStep = () => {
@@ -26,16 +27,6 @@ const Form = ({}: FormProps) => {
       ) : (
         <SubmitCode email={email} />
       )}
-      {/* <Tab.Group defaultIndex={0}>
-        <Tab.Panels>
-          <Tab.Panel> */}
-
-      {/* </Tab.Panel>
-          <Tab.Panel> */}
-
-      {/* </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group> */}
     </div>
   );
 };

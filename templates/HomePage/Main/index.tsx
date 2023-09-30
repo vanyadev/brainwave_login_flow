@@ -1,34 +1,25 @@
-import { useState } from "react";
-import Message from "@/components/Message";
-import Menu from "@/components/Menu";
-
-import { navigation } from "@/constants/navigation";
+import { NewsFeed } from "@/components/NewsFeed";
+import Post from "@/components/SocialsPost/Post";
+import { useGlobalContext } from "context";
 
 type MainProps = {};
 
 const Main = ({}: MainProps) => {
-    const [message, setMessage] = useState<string>("");
+  const { userName, email } = useGlobalContext();
 
-    return (
-        <>
-            <div className="grow px-10 py-20 overflow-y-auto scroll-smooth scrollbar-none 2xl:py-12 md:px-4 md:pt-0 md:pb-6">
-                <div className="mb-10 text-center">
-                    <div className="h3 leading-[4rem] 2xl:mb-2 2xl:h4">
-                        Unlock the power of AI
-                    </div>
-                    <div className="body1 text-n-4 2xl:body1S">
-                        Chat with the smartest AI - Experience the power of AI
-                        with us
-                    </div>
-                </div>
-                <Menu className="max-w-[30.75rem] mx-auto" items={navigation} />
-            </div>
-            <Message
-                value={message}
-                onChange={(e: any) => setMessage(e.target.value)}
-            />
-        </>
-    );
+  return (
+    <div className="p-6  mx-auto w-full overflow-auto ">
+      <div>
+        Logged In As User: <span className="font-bold	">{userName}</span>
+      </div>
+      <div>
+        email: <span className="font-bold	">{email}</span>
+      </div>
+      <div className="mt-5 ">
+        <NewsFeed />
+      </div>
+    </div>
+  );
 };
 
 export default Main;
