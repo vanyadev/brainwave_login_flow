@@ -13,6 +13,8 @@ export type GlobalContextType = {
   userName: string;
   handleSetUserName: (name: string) => void;
   setEmail: Dispatch<SetStateAction<string>>;
+  setCorrectSubmitCode: Dispatch<SetStateAction<string>>;
+  correctSubmitCode: string;
 };
 
 export type GlobalContextProviderProps = {
@@ -26,6 +28,7 @@ export const GlobalContextProvider: FC<GlobalContextProviderProps> = ({
 }) => {
   const [email, setEmail] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
+  const [correctSubmitCode, setCorrectSubmitCode] = useState<string>("");
 
   const handleSetUserName = (name: string) => {
     setUserName(name);
@@ -36,6 +39,8 @@ export const GlobalContextProvider: FC<GlobalContextProviderProps> = ({
     userName,
     setEmail,
     handleSetUserName,
+    correctSubmitCode,
+    setCorrectSubmitCode,
   };
   return (
     <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>

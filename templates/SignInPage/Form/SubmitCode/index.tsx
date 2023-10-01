@@ -8,7 +8,7 @@ type Props = {
 
 const SubmitCode: FC<Props> = ({ email }) => {
   const router = useRouter();
-  const { handleSetUserName } = useGlobalContext();
+  const { handleSetUserName, correctSubmitCode } = useGlobalContext();
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -82,27 +82,29 @@ const SubmitCode: FC<Props> = ({ email }) => {
   const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
     const code = verificationCode.join("");
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code, email }),
-      });
+    if (correctSubmitCode === code) {
+      try {
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
 
-      if (res.status === 200) {
-        const data = await res.json();
-        setError(null);
-        handleSetUserName(data.username);
-        router.push("/home");
-        e.preventDefault();
-      } else {
-        setError("Code error");
+        if (res.status === 200) {
+          const data = await res.json();
+
+          setError(null);
+          handleSetUserName(data.username);
+          router.push("/home");
+        } else {
+          setError("Something wrong");
+        }
+      } catch (err) {
+        setError("Something wrong");
       }
-    } catch (err) {
-      setError("Wrong code");
-    }
+    } else setError("Invalid code");
   };
 
   return (

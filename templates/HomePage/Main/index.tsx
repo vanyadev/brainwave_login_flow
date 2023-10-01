@@ -12,9 +12,7 @@ const Main = ({}: MainProps) => {
       <div>
         Logged In As User: <span className="font-bold	">{userName}</span>
       </div>
-      <div>
-        email: <span className="font-bold	">{email}</span>
-      </div>
+
       <div className="mt-5 ">
         <NewsFeed />
       </div>

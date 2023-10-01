@@ -2,6 +2,7 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import Field from "@/components/Field";
 import { Tab } from "@headlessui/react";
 import SpinLoader from "@/components/SpinLoader";
+import { useGlobalContext } from "context";
 
 type SignInProps = {
   onClick: () => void;
@@ -12,6 +13,7 @@ type SignInProps = {
 const SignIn = ({ onClick, email, setEmail }: SignInProps) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setCorrectSubmitCode } = useGlobalContext();
 
   const handleSubmitForm = async (e: FormEvent) => {
     e.preventDefault();
@@ -26,7 +28,10 @@ const SignIn = ({ onClick, email, setEmail }: SignInProps) => {
       });
 
       if (res.status === 200) {
+        const data = await res.json();
         setError(null);
+        setCorrectSubmitCode(data.code);
+        onClick();
       } else {
         setError("Verification error");
       }
@@ -34,7 +39,6 @@ const SignIn = ({ onClick, email, setEmail }: SignInProps) => {
       setError("Verification request error");
     }
     setIsLoading(false);
-    onClick();
   };
 
   return (

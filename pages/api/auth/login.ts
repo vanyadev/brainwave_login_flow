@@ -5,7 +5,7 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
     res.status(405).end();
     return;
   }
-  const { code, email } = req.body;
+  const { email } = req.body;
 
   const accessToken = "yourAccessTokenValue";
   const refreshToken = "yourRefreshTokenValue";
@@ -20,5 +20,7 @@ export default function login(req: NextApiRequest, res: NextApiResponse) {
     `refreshToken=${refreshToken}; HttpOnly; Path=/; SameSite=Strict`
   );
 
-  res.status(200).json({ username: "John Doe", code, email });
+  const emailName = email.split("@")[0];
+
+  res.status(200).json({ username: emailName, email });
 }
